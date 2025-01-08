@@ -29,7 +29,7 @@ func generateMnemonic(entropySize EntropySize) string {
 	return mnemonic
 }
 
-func GenerateSeed(wordCount int) []byte {
+func GenerateSeed(wordCount int) (seed []byte, mnemonic string) {
 	var entropySize EntropySize
 	switch wordCount {
 	case 12:
@@ -45,11 +45,11 @@ func GenerateSeed(wordCount int) []byte {
 	default:
 		log.Fatal("Invalid word count")
 		entropySize = EntropySize256
-		return nil
+		return nil, ""
 	}
 
-	mnemonic := generateMnemonic(entropySize)
+	mnemonic = generateMnemonic(entropySize)
 
-	seed := bip39.NewSeed(mnemonic, "")
-	return seed
+	seed = bip39.NewSeed(mnemonic, "")
+	return seed, mnemonic
 }
